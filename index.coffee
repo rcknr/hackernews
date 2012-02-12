@@ -133,18 +133,19 @@ keyBindings =
   27: () -> # ESCAPE
     ev = if $comments.attr("src")? then "closeComments" else "closeStory"
     $(window).trigger ev
-
+    
   74: () -> # j
     $(window).trigger "selectStory", 
      [if $(".selected").length then $(".selected").next() else $(".story").eq(0)]
 
-   75: () -> $(window).trigger "selectStory", [$(".selected").prev()] # k
+  75: () -> $(window).trigger "selectStory", [$(".selected").prev()] # k
    
 $(window).bind "keydown", (ev) ->
   keyBindings[ev.keyCode]($content, $comments) if keyBindings[ev.keyCode]?
 
 # Not handled right now
 # $(window).bind "scroll", () -> $(window).trigger "closeStory"
+
 
 # HANDLE SEMANTIC EVENTS
 
@@ -160,10 +161,12 @@ $(window).bind "selectStory", (ev, $story, ensureComments) ->
     $content.attr("src", story.simpleURL)
   else
     $content.attr("src", story.url)
+  $content.focus()
   # $content.src story[if $("#simplified").checked() then "simpleURL" else "url"]
   if ensureComments or $comments.attr("src")?
     $(".commentsOn").radio()
     $comments.attr "src", $(".selected .commentsLink a").attr("href")
+    $comments.focus()
 
   $("[data-property]", $contentPanel).each () ->
     $(this).html(story[$(this).attr("data-property")])
